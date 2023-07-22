@@ -1,38 +1,49 @@
 import { faCheckCircle, faCircle } from '@fortawesome/free-regular-svg-icons';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { checkArticleApi, deleteArticleApi, getArticlesApi } from '../app/articleService';
 
 
 function Article() {
 
-    const [articles, setArticles] = useState([
-        { id: 1, name: "Computer", price: 3400, available: true },
-        { id: 2, name: "Printer", price: 1200, available: false },
-        { id: 3, name: "Smart Phone", price: 800, available: true },
-    ]);
+    const [articles, setArticles] = useState([]);
 
-    useState(()=>{
-        getArticles()
+    useEffect(()=>{
+        handleGetArticles();
     },[]);
 
-    const getArticles=()=>{
-        
+    const handleGetArticles=()=>{
+        getArticlesApi().then(resp =>{
+            const newArticles = resp.data;
+            setArticles(newArticles);
+        }).catch(err =>{
+            console.log(err);
+        })
     }
 
-    const deleteArticle =(article)=>{
-        const newArticles = articles.filter((a)=> a.id != article.id);
-        setArticles(newArticles)
+    const handleDeleteArticle =(article)=>{
+        deleteArticleApi(article).then(resp =>{
+            const newArticle = articles.filter((a) => a.id != article.id);
+            setArticles(newArticle);
+        }).catch(err =>{
+            console.log(err);
+        })
     }
 
-    const checkArticle =(article)=>{
-        const newArticles = articles.map((a)=>{
-            if(a.id == article.id){
-                a.available = !article.available;
-            }
-            return a;
-        });
-        setArticles(newArticles)
+    const handleCheckArticle =(article)=>{
+        checkArticleApi(article).then(resp => {
+            const newArticles = articles.map((a)=>{
+                if(a.id == article.id){
+                    a.available = !article.available;
+                }
+                return a;
+            });
+            setArticles(newArticles);
+        }).catch(err =>{
+            console.log(err);
+        })
+
     }
 
   return (
@@ -56,14 +67,14 @@ function Article() {
                             <td>{article.price}</td>
                             <td>
                                 <button 
-                                onClick={() => checkArticle(article)}
+                                onClick={() => handleCheckArticle(article)}
                                 className='btn btn-outline-success'>
                                     <FontAwesomeIcon icon={article.available?faCheckCircle:faCircle}></FontAwesomeIcon>
                                 </button>
                             </td>
                             <td>
                                 <button 
-                                onClick={() => deleteArticle(article)}
+                                onClick={() => handleDeleteArticle(article)}
                                 className='btn btn-outline-danger'>
                                         <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon>
                                 </button>
