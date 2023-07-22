@@ -12,6 +12,14 @@ function Article() {
         { id: 3, name: "Smart Phone", price: 800, available: true },
     ]);
 
+    useState(()=>{
+        getArticles()
+    },[]);
+
+    const getArticles=()=>{
+        
+    }
+
     const deleteArticle =(article)=>{
         const newArticles = articles.filter((a)=> a.id != article.id);
         setArticles(newArticles)

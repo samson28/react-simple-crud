@@ -1,0 +1,28 @@
+{
+    "article":[
+        { 
+            "id": 1, 
+            "name": "Computer", 
+            "price": 3400, 
+            "available": true 
+        },
+        { 
+            "id": 2, 
+            "name": "Printer", 
+            "price": 1200, 
+            "available": false 
+        },
+        { 
+            "id": 3, 
+            "name": "Smart Phone", 
+            "price": 800, 
+            "available": true 
+        },
+        { 
+            "id": 4, 
+            "name": "Falcon 9", 
+            "price": 1000000000, 
+            "available": true 
+        }
+    ]
+}
