@@ -17,7 +17,15 @@ function Article() {
         setArticles(newArticles)
     }
 
-
+    const checkArticle =(article)=>{
+        const newArticles = articles.map((a)=>{
+            if(a.id == article.id){
+                a.available = !article.available;
+            }
+            return a;
+        });
+        setArticles(newArticles)
+    }
 
   return (
     <div className='container-fluid'>
@@ -40,7 +48,7 @@ function Article() {
                             <td>{article.price}</td>
                             <td>
                                 <button 
-                                
+                                onClick={() => checkArticle(article)}
                                 className='btn btn-outline-success'>
                                     <FontAwesomeIcon icon={article.available?faCheckCircle:faCircle}></FontAwesomeIcon>
                                 </button>
