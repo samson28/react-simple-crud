@@ -12,6 +12,13 @@ function Article() {
         { id: 3, name: "Smart Phone", price: 800, available: true },
     ]);
 
+    const deleteArticle =(article)=>{
+        const newArticles = articles.filter((a)=> a.id != article.id);
+        setArticles(newArticles)
+    }
+
+
+
   return (
     <div className='container-fluid'>
         <table class="table">
@@ -32,12 +39,16 @@ function Article() {
                             <td>{article.name}</td>
                             <td>{article.price}</td>
                             <td>
-                                <button className='btn btn-outline-success'>
+                                <button 
+                                
+                                className='btn btn-outline-success'>
                                     <FontAwesomeIcon icon={article.available?faCheckCircle:faCircle}></FontAwesomeIcon>
                                 </button>
                             </td>
                             <td>
-                                <button className='btn btn-outline-danger'>
+                                <button 
+                                onClick={() => deleteArticle(article)}
+                                className='btn btn-outline-danger'>
                                         <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon>
                                 </button>
                             </td>
