@@ -4,8 +4,8 @@ export const articlesApi=axios.create({
     baseURL: "http://localhost:4000",
 })
 
-export const getArticlesApi =()=>{
-    return articlesApi.get("/article");
+export const getArticlesApi =(keyword='',page=1,size=4)=>{
+    return articlesApi.get(`/article?name_like=${keyword}&_page=${page}&_limit=${size}`);
 }
 
 export const deleteArticleApi=(article)=>{

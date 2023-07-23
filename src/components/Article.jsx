@@ -7,25 +7,38 @@ import { checkArticleApi, deleteArticleApi, getArticlesApi } from '../app/articl
 
 function Article() {
 
-    const [articles, setArticles] = useState([]);
+    const [state, setState] = useState({
+        articles:[],
+        currentPage:1,
+        pageSize:4,
+        keyword:'',
+        totalPages:0
+    });
 
     useEffect(()=>{
-        handleGetArticles();
+        handleGetArticles(state.keyword,state.currentPage,state.pageSize);
     },[]);
 
-    const handleGetArticles=()=>{
-        getArticlesApi().then(resp =>{
-            const newArticles = resp.data;
-            setArticles(newArticles);
+    const handleGetArticles=(keyword,page,size)=>{
+        getArticlesApi(keyword,page,size).then(resp =>{
+            const totalElement = resp.headers['x-total-count'];
+            let theTotalPages = Math.floor(totalElement/size);
+            if(totalElement % size !=0) ++theTotalPages;
+            setState({
+                articles:resp.data,
+                keyword:keyword,
+                currentPage:page,
+                pageSize:size,
+                totalPages:theTotalPages});
         }).catch(err =>{
             console.log(err);
-        })
+        });
     }
 
     const handleDeleteArticle =(article)=>{
         deleteArticleApi(article).then(resp =>{
-            const newArticle = articles.filter((a) => a.id != article.id);
-            setArticles(newArticle);
+            const newArticles = state.articles.filter((a) => a.id != article.id);
+            setState({...state,articles:newArticles});
         }).catch(err =>{
             console.log(err);
         })
@@ -33,22 +46,26 @@ function Article() {
 
     const handleCheckArticle =(article)=>{
         checkArticleApi(article).then(resp => {
-            const newArticles = articles.map((a)=>{
+            const newArticles = state.articles.map((a)=>{
                 if(a.id == article.id){
                     a.available = !article.available;
                 }
                 return a;
             });
-            setArticles(newArticles);
+            setState({...state,articles:newArticles});
         }).catch(err =>{
             console.log(err);
         })
 
     }
 
+    const handleGoToPage=(page)=>{
+        handleGetArticles(state.keyword,page,state.pageSize);
+    }
+
   return (
     <div className='container-fluid'>
-        <table class="table">
+        <table className="table">
             <thead>
                 <tr>
                 <th scope="col">#</th>
@@ -58,9 +75,9 @@ function Article() {
                 <th scope="col"></th>
                 </tr>
             </thead>
-            <tbody class="table-group-divider">
+            <tbody className="table-group-divider">
                 {
-                    articles.map((article) => (
+                    state.articles.map((article) => (
                         <tr key={article.id}>
                             <th scope="row">{article.id}</th>
                             <td>{article.name}</td>
@@ -84,6 +101,22 @@ function Article() {
                     }
             </tbody>
         </table>
+        
+        <ul className='nav nav-pills'>
+            {
+                
+                new Array(state.totalPages).fill(0).map((v,index)=>(
+                    
+                    <li key={index + 1}>
+                        <button 
+                        onClick={()=>handleGoToPage(index + 1)}
+                        className={((index+1)==state.currentPage)?'btn btn-info ms-1':'btn btn-outline-info ms-1'}>{index + 1}</button>
+                    </li>
+                ))
+            }
+        </ul>
+        
+
     </div>
 
   )
