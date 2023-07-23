@@ -1,8 +1,9 @@
-import { faCheckCircle, faCircle } from '@fortawesome/free-regular-svg-icons';
+import { faCheckCircle, faCircle, faEdit } from '@fortawesome/free-regular-svg-icons';
 import { faSearch, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState } from 'react';
 import { checkArticleApi, deleteArticleApi, getArticlesApi } from '../app/articleService';
+import { useNavigate } from 'react-router-dom';
 
 
 function Article() {
@@ -17,6 +18,8 @@ function Article() {
         totalPages:0
     });
 
+    const navigate = useNavigate();
+
     useEffect(()=>{
         handleGetArticles(state.keyword,state.currentPage,state.pageSize);
     },[]);
@@ -25,7 +28,7 @@ function Article() {
         getArticlesApi(keyword,page,size).then(resp =>{
             const totalElement = resp.headers['x-total-count'];
             let theTotalPages = Math.floor(totalElement/size);
-            if(totalElement % size !=0) ++theTotalPages;
+            if(totalElement % size !==0) ++theTotalPages;
             setState({
                 ...state,
                 articles:resp.data,
@@ -40,7 +43,7 @@ function Article() {
 
     const handleDeleteArticle =(article)=>{
         deleteArticleApi(article).then(resp =>{
-            const newArticles = state.articles.filter((a) => a.id != article.id);
+            const newArticles = state.articles.filter((a) => a.id !== article.id);
             setState({...state,articles:newArticles});
         }).catch(err =>{
             console.log(err);
@@ -50,7 +53,7 @@ function Article() {
     const handleCheckArticle =(article)=>{
         checkArticleApi(article).then(resp => {
             const newArticles = state.articles.map((a)=>{
-                if(a.id == article.id){
+                if(a.id === article.id){
                     a.available = !article.available;
                 }
                 return a;
@@ -118,6 +121,13 @@ function Article() {
                                     </td>
                                     <td>
                                         <button 
+                                        onClick={() => navigate(`/updateArticle/${article.id}`)}
+                                        className='btn btn-outline-warning'>
+                                                <FontAwesomeIcon icon={faEdit}></FontAwesomeIcon>
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button 
                                         onClick={() => handleDeleteArticle(article)}
                                         className='btn btn-outline-danger'>
                                                 <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon>
@@ -137,7 +147,7 @@ function Article() {
                             <li key={index + 1}>
                                 <button 
                                 onClick={()=>handleGoToPage(index + 1)}
-                                className={((index+1)==state.currentPage)?'btn btn-info ms-1':'btn btn-outline-info ms-1'}>{index + 1}</button>
+                                className={((index+1)===state.currentPage)?'btn btn-info ms-1':'btn btn-outline-info ms-1'}>{index + 1}</button>
                             </li>
                         ))
                     }

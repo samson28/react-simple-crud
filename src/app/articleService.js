@@ -25,7 +25,7 @@ export const checkArticleApi=(article)=>{
 }
 
 export const updateArticleApi=(article)=>{
-    return articlesApi.put("/article/"+article.id,{article});
+    return articlesApi.put("/article/"+article.id,article);
 }
 
 

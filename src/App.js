@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import Layout from './components/Layout';
 import NewArticle from './components/NewArticle';
+import UpdateArticle from './components/UpdateArticle';
 
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <Route path='/home' element={<Home/>}></Route>
         <Route path='/articles' element={<Article/>}></Route>
         <Route path='/newarticle' element={<NewArticle/>}></Route>
+        <Route path='/updateArticle/:id' element={<UpdateArticle/>}></Route>
       </Routes>
    </BrowserRouter>
   );

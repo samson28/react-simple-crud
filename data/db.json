@@ -25,16 +25,16 @@
       "available": true
     },
     {
+      "id": 5,
       "name": "Samsung",
       "price": "25000",
-      "available": "false",
-      "id": 5
+      "available": false
     },
     {
+      "id": 6,
       "name": "Nokia",
       "price": "55000",
-      "available": "false",
-      "id": 6
+      "available": true
     }
   ]
 }
