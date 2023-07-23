@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import {Link} from "react-router-dom";
 import { useState } from 'react';
+import Stats from "./Stats";
 
 function Layout(){
     const [currentRoute, setCurrentRoute] = useState();
@@ -12,12 +13,12 @@ function Layout(){
         <nav className="navbar navbar-expand-lg bg-body-tertiary">
             <div className="container-fluid">
                 <div className="collapse navbar-collapse">
-                    <ul className="navbar-nav">
+                    <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                         <li className="nav-item">
                             <Link 
-                            onClick={() => setCurrentRoute("/home")}
-                            className={currentRoute === '/home'?"nav-link active":"nav-link"}  
-                            to={"/home"}>Home</Link>
+                            onClick={() => setCurrentRoute("/")}
+                            className={currentRoute === '/'?"nav-link active":"nav-link"}  
+                            to={"/"}>Home</Link>
                         </li>
                         <li className="nav-item">
                             <Link 
@@ -30,6 +31,11 @@ function Layout(){
                             onClick={() => setCurrentRoute("/newarticle")}
                             className={currentRoute === '/newarticle'?"nav-link active":"nav-link"} 
                             to={"/newarticle"}>NewArticle</Link>
+                        </li>
+                    </ul>
+                    <ul className="nav navbar">
+                        <li>
+                            <Stats></Stats>
                         </li>
                     </ul>
                 </div>
