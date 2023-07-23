@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { saveArticleApi } from '../app/articleService';
+import { saveArticleApi } from '../repository/articleRepository';
 
 function NewArticle() {
 

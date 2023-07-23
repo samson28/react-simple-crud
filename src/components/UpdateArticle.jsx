@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { getArticleApi, updateArticleApi } from '../app/articleService';
+import { getArticleApi, updateArticleApi } from '../repository/articleRepository';
 import { useParams } from 'react-router-dom';
 
 function UpdateArticle() {

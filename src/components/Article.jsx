@@ -1,22 +1,17 @@
 import { faCheckCircle, faCircle, faEdit } from '@fortawesome/free-regular-svg-icons';
 import { faSearch, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useEffect, useState } from 'react';
-import { checkArticleApi, deleteArticleApi, getArticlesApi } from '../app/articleService';
+import React, { useContext, useEffect, useState } from 'react';
+import { checkArticleApi, deleteArticleApi, getArticlesApi } from '../repository/articleRepository';
 import { useNavigate } from 'react-router-dom';
+import { AppContext } from '../app/appContext';
 
 
 function Article() {
 
     const [query,setQuery] = useState("");
 
-    const [state, setState] = useState({
-        articles:[],
-        currentPage:1,
-        pageSize:4,
-        keyword:'',
-        totalPages:0
-    });
+    const [state, setState] = useContext(AppContext);
 
     const navigate = useNavigate();
 
