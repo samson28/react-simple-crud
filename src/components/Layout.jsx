@@ -27,6 +27,13 @@ function Layout(){
                             aria-current="page" 
                             to={"/articles"}>Article</Link>
                         </li>
+                        <li className="nav-item">
+                            <Link 
+                            onClick={() => setCurrentRoute("/newarticle")}
+                            className={currentRoute == '/newarticle'?"nav-link active":"nav-link"} 
+                            aria-current="page" 
+                            to={"/newarticle"}>NewArticle</Link>
+                        </li>
                     </ul>
                 </div>
             </div>
